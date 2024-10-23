@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TypedDay: Sendable {
+public struct TypedDay: Sendable, Codable {
 	public typealias FormatOutput = String
 	
 	public enum TypeOfDay: Equatable, Hashable, Codable, Sendable {

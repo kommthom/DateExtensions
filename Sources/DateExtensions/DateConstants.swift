@@ -6,15 +6,14 @@
 //
 
 import Foundation
-import UserDTOs
 
 public struct DateConstants {
     public static var `default`: DateConstants.Default { DateConstants.Default() }
     public struct Default {
-        public var localeIdentifier: LocaleIdentifier { locale.identifier }
-        public var languageIdentifier: LanguageIdentifier { language.identifier }
+//        public var localeIdentifier: LocaleIdentifier { locale.identifier }
+//        public var languageIdentifier: LanguageIdentifier { language.identifier }
         public var timeZone = TimeZone(identifier: "UTC")
-        public var language: Language { locale.language }
+//        public var language: Language { locale.language }
 //        public var locale = LocaleFormatting(
 //            id: UUID(),
 //            name: "Default Locale",

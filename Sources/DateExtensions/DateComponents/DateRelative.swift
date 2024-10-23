@@ -30,26 +30,28 @@ public struct DateRelative: Sendable {
 	public var isIntervalFromNow: Bool?
 	public var timeZone: TimeZone
 	
-	public init(date: ComponentDate? = nil, time: ComponentTime? = nil, isIntervalFromNow: Bool? = nil, timeZone: TimeZone = DateConstants.shared.defaultTimeZone) {
+	public init(date: ComponentDate? = nil, time: ComponentTime? = nil, isIntervalFromNow: Bool? = nil, timeZone: TimeZone = DateConstants.default.timeZone!) {
 		self.dateComponent = date
 		self.timeComponent = time
 		self.isIntervalFromNow = isIntervalFromNow
-		//self.timeZone = timeZone
+		self.timeZone = timeZone
 	}
-	public init(century: Int? = nil, year: Int? = nil, month: Int? = nil, week: ComponentDate.TypedWeek? = nil, day: Int? = nil, dayType: ComponentDate.TypedDay.TypeOfDayNo? = nil, dayFilter: ComponentDate.TypedDay.TypeOfDay? = nil, hour: Int? = nil, quarterHour: Int? = nil, timeOfDay: ComponentTime.TimeOfDay? = nil, isIntervalFromNow: Bool? = nil ) {
-		let yearComponent = year == nil ? nil : century == nil ? ComponentDate.ComponentYear(year: year!) : ComponentDate.ComponentYear(century: century!, year: year!)
-		let monthComponent = month == nil ? nil : ComponentDate.ComponentMonth(intValue: month!)
-		var dayTyped: ComponentDate.TypedDay?
+	
+	public init(century: Int? = nil, year: Int? = nil, month: Int? = nil, week: TypedWeek? = nil, day: Int? = nil, dayType: TypedDay.TypeOfDayNo? = nil, dayFilter: TypedDay.TypeOfDay? = nil, hour: Int? = nil, quarterHour: Int? = nil, timeOfDay: TimeOfDay? = nil, isIntervalFromNow: Bool? = nil, timeZone: TimeZone = DateConstants.default.timeZone!) {
+		let yearComponent = year == nil ? nil : century == nil ? ComponentYear(year: year!) : ComponentYear(century: century!, year: year!)
+		let monthComponent = month == nil ? nil : ComponentMonth(intValue: month!)
+		var dayTyped: TypedDay?
 		if let dayComponent = day {
-			dayTyped = ComponentDate.TypedDay(type: dayType ?? .ofMonth, dayFilter: dayFilter, day: day!)
+			dayTyped = TypedDay(type: dayType ?? .ofMonth, dayFilter: dayFilter, day: dayComponent)
 		} else if let _ = dayType {
-			dayTyped = ComponentDate.TypedDay(type: dayType!, dayFilter: dayFilter)
+			dayTyped = TypedDay(type: dayType!, dayFilter: dayFilter)
 		} else {
 			dayTyped = nil
 		}
 		self.dateComponent = yearComponent == nil && monthComponent == nil && week == nil && dayTyped == nil ? nil : ComponentDate(yearComponent: yearComponent, monthComponent: monthComponent, week: week, day: dayTyped)
-		self.timeComponent = hour == nil || quarterHour == nil ? nil : ComponentTime(hour: hour!, quarterHour: quarterHour!, timeOfDay: timeOfDay, timeZone: TimeZone)
+		self.timeComponent = hour == nil || quarterHour == nil ? nil : ComponentTime(hour: hour!, quarterHour: quarterHour!, timeOfDay: timeOfDay, timeZone: timeZone)
 		self.isIntervalFromNow = isIntervalFromNow
+		self.timeZone = timeZone
 	}
 }
 

@@ -19,7 +19,7 @@ public struct ComponentTime: Sendable {
 		self.init(hour: time.hour, quarterHour: ((time.minute + 14) / 15) % 4)
 	}
 	
-	public init(hour: Int = 0, quarterHour: Int = 0, timeOfDay: TimeOfDay? = nil, timeZone: TimeZone = DateConstants.default.timeZone) {
+	public init(hour: Int = 0, quarterHour: Int = 0, timeOfDay: TimeOfDay? = nil, timeZone: TimeZone = DateConstants.default.timeZone!) {
 		if let _ = timeOfDay {
 			self.timeOfDay = timeOfDay
 			self.hour = timeOfDay!.hour!
@@ -27,8 +27,9 @@ public struct ComponentTime: Sendable {
 		} else {
 			self.hour = Hour(hour)
 			self.quarterHour = QuarterHour(quarterHour)
-			self.timeOfDay = TimeOfDay.allCases.first(where: { $0.hour == hour && $0.quarterHour == quarterHour } )
+			self.timeOfDay = TimeOfDay.allCases.first(where: { $0.hour?.intValue == hour && $0.quarterHour?.intValue == quarterHour } )
 		}
+		self.timeZone = timeZone
 	}
 }
 
@@ -41,5 +42,12 @@ extension ComponentTime: Codable {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(hour, forKey: .hour)
 		try container.encode(quarterHour, forKey: .quarterHour)
+	}
+	
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		let hour = try container.decode(Hour.self, forKey: .hour)
+		let quarterHour = try container.decode(QuarterHour.self, forKey: .quarterHour)
+		self.init(hour: hour.intValue, quarterHour: quarterHour.intValue)
 	}
 }

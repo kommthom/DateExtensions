@@ -31,4 +31,13 @@ extension ComponentDate: Codable {
 		try container.encode(week, forKey: .week)
 		try container.encode(day, forKey: .day)
 	}
+	
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		let yearComponent = try container.decode(ComponentYear?.self, forKey: .yearComponent)
+		let monthComponent = try container.decode(ComponentMonth?.self, forKey: .monthComponent)
+		let week = try container.decode(TypedWeek?.self, forKey: .week)
+		let day = try container.decode(TypedDay?.self, forKey: .day)
+		self.init(yearComponent: yearComponent, monthComponent: monthComponent, week: week, day: day)
+	}
 }

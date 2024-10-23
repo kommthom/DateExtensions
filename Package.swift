@@ -15,10 +15,10 @@ let package = Package(
             targets: ["DateExtensions"]),
     ],
 	dependencies: [
-		.package(
-			name: "UserDTOs", 
-			path: "../UserDTOs"
-		)
+//		.package(
+//			name: "UserDTOs", 
+//			path: "../UserDTOs"
+//		)
 	],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -26,10 +26,10 @@ let package = Package(
         .target(
             name: "DateExtensions",
 			dependencies: [
-				.product(
-					name: "UserDTOs",
-					package: "UserDTOs"
-				)
+//				.product(
+//					name: "UserDTOs",
+//					package: "UserDTOs"
+//				)
 			]
 		),
         .testTarget(
